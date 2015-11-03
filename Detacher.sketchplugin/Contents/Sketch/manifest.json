@@ -4,7 +4,7 @@
     {
       "script" : "script.cocoascript",
       "handler" : "onRun",
-      "shortcut" : "cmd shift ctrl f",
+      "shortcut" : "cmd shift ⌫",
       "name" : "Detach from Symbols and Styles",
       "identifier" : "detach-from-symbols-and-styles",
       "isRoot" : true
