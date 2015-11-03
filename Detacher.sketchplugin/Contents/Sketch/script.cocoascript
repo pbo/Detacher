@@ -1,0 +1,35 @@
+var onRun = function(context) {
+    var symbolsContainer = context.document.documentData().layerSymbols()
+    var styleContainer = context.document.documentData().layerStyles()
+
+    function detachFromSymbolAndStyle(layer) {
+        // Try to detach this layer from shared symbol and/or shared style
+        if (layer.isSharedObject()) {
+            var symbol = symbolsContainer.symbolForInstance(layer)
+            if (symbol) {
+                symbol.unregisterInstance(layer)
+            }
+
+            if (layer.respondsToSelector("style")) {
+                var style = layer.style()
+                var sharedStyle = styleContainer.sharedStyleForInstance(style)
+                if (sharedStyle) {
+                    sharedStyle.unregisterInstance(style)
+                }
+            }
+        }
+
+        // Recursively try to detach all childs
+        if (layer.respondsToSelector("layers")) {
+            var layers = layer.layers()
+            for (var i = 0; i < layers.count(); i++) {
+                detachFromSymbolAndStyle(layers.objectAtIndex(i))
+            }
+        }
+    }
+
+    // Detach selection from symbols and styles
+    for (i = 0; i < context.selection.count(); i++) {
+        detachFromSymbolAndStyle(context.selection.objectAtIndex(i))
+    }
+}

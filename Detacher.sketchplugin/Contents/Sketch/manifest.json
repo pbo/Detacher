@@ -1,0 +1,30 @@
+{
+  "author" : "",
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "handler" : "onRun",
+      "shortcut" : "cmd shift ctrl f",
+      "name" : "Detach from Symbols and Styles",
+      "identifier" : "detach-from-symbols-and-styles",
+      "isRoot" : true
+    }
+  ],
+  "menu" : {
+    "items" : [
+      "detach-from-symbols-and-styles"
+    ],
+    "title" : "Detach from Symbols and Styles",
+    "isRoot" : true,
+  },
+  "identifier" : "com.pavelbocharov.sketch-plugins.detacher",
+  "description": "Recursively detaches selection from its symbols and shared styles.",
+  "authorEmail" : "pavelbocharov@gmail.com",
+  "name" : "Detach from Symbols and Styles",
+  "homepage": "https://github.com/pbo/Detacher",
+  "version": "1.0",
+  "manifestURL": "https://raw.githubusercontent.com/pbo/Detacher/Detacher.sketchplugin/Contents/Sketch/manifest.json",
+  "downloadURL": "https://github.com/pbo/Detacher/archive/master.zip",
+  "compatibleVersion": 3.4,
+  "bundleVersion": 1
+}
