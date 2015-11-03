@@ -1,18 +1,27 @@
 var onRun = function(context) {
     var symbolsContainer = context.document.documentData().layerSymbols()
-    var styleContainer = context.document.documentData().layerStyles()
+    var stylesContainer = context.document.documentData().layerStyles()
+    var textStylesContainer = context.document.documentData().layerTextStyles()
 
     function detachFromSymbolAndStyle(layer) {
-        // Try to detach this layer from shared symbol and/or shared style
+        // Try to detach this layer from shared symbol and/or shared style and/or text style
         if (layer.isSharedObject()) {
-            var symbol = symbolsContainer.symbolForInstance(layer)
-            if (symbol) {
-                symbol.unregisterInstance(layer)
+            if (layer.respondsToSelector("sharedObjectID")) {
+                var symbol = symbolsContainer.symbolForInstance(layer)
+                if (symbol) {
+                    symbol.unregisterInstance(layer)
+                }
             }
 
             if (layer.respondsToSelector("style")) {
                 var style = layer.style()
-                var sharedStyle = styleContainer.sharedStyleForInstance(style)
+
+                var sharedStyle = stylesContainer.sharedStyleForInstance(style)
+                if (sharedStyle) {
+                    sharedStyle.unregisterInstance(style)
+                }
+
+                sharedStyle = textStylesContainer.sharedStyleForInstance(style)
                 if (sharedStyle) {
                     sharedStyle.unregisterInstance(style)
                 }
