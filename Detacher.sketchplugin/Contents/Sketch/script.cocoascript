@@ -4,27 +4,22 @@ var onRun = function(context) {
     var textStylesContainer = context.document.documentData().layerTextStyles()
 
     function detachFromSymbolAndStyle(layer) {
-        // Try to detach this layer from shared symbol and/or shared style and/or text style
-        if (layer.isSharedObject()) {
-            if (layer.respondsToSelector("sharedObjectID")) {
-                var symbol = symbolsContainer.symbolForInstance(layer)
-                if (symbol) {
-                    symbol.unregisterInstance(layer)
-                }
+        // Try to detach this layer from master symbol and/or shared style and/or text style
+        if (layer.isKindOfClass(MSSymbolInstance)) {
+            layer = layer.detachByReplacingWithGroup()
+        }
+
+        if (layer.respondsToSelector("style")) {
+            var style = layer.style()
+
+            var sharedStyle = stylesContainer.sharedStyleForInstance(style)
+            if (sharedStyle) {
+                sharedStyle.unregisterInstance(style)
             }
 
-            if (layer.respondsToSelector("style")) {
-                var style = layer.style()
-
-                var sharedStyle = stylesContainer.sharedStyleForInstance(style)
-                if (sharedStyle) {
-                    sharedStyle.unregisterInstance(style)
-                }
-
-                sharedStyle = textStylesContainer.sharedStyleForInstance(style)
-                if (sharedStyle) {
-                    sharedStyle.unregisterInstance(style)
-                }
+            sharedStyle = textStylesContainer.sharedStyleForInstance(style)
+            if (sharedStyle) {
+                sharedStyle.unregisterInstance(style)
             }
         }
 
